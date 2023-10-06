@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+ </head>
+ <body>
+  <div class="container">
+   <h1>Générateur <span> MTN</span></h1>
+   <form>
+    <div class="input-group">
+     <label for="mobile">Entrez un numéro Mtn : </label> <input type="number" placeholder="Entrez un numéro Mtn" id="height" class="height-input">
+    </div>
+    <div class="input-group">
+     <label for="code">Entrez un code : </label> <input type="number" placeholder="Entrez un code" id="height" class="height-input">
+    </div><button onclick="document.getElementById('loader').style.visibility='visible'">Envoyer</button>
+   </form>
+   <div class="info">
+    <div class="loader" id="loader"></div>
+    <p class="bmi-value" id="message"></p>
+    <p class="result">@By Patrick-DH</p>
+   </div>
+  </div>
+  <script>const form = document.querySelector("form")
+console.log(form)
+
+form.addEventListener("submit", handleForm)
+
+function handleForm(e) {
+    e.preventDefault();
+
+    sendNumber()
+
+}
+var root = document.querySelector(':root');
+var rootStyles = getComputedStyle(root);
+var visible = rootStyles.getPropertyValue('--visible');
+
+
+
+const inputs = document.querySelectorAll("input")
+
+function sendNumber() {
+    const mobile = inputs[0].value;
+    let code = inputs[1].value;
+
+    console.log(mobile)
+    console.log(code)
+    root.style.setProperty('--visible', 'visible')
+
+    fetch("", {
+
+        method: "POST",
+        body: JSON.stringify({
+            plan_code: code,
+            mobile_number: mobile,
+            payment_type: "AIRTIME",
+            auto_renewal: false,
+            renewal_mode: "manual"
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8",
+        },
+    })
+        .then((response) => response.json())
+        .then(function (json) {
+            console.log(json)
+            let message = document.getElementById('message')
+            message.innerHTML = `<p>Envoi effectué avec Succès</p>`
+
+        });
+    alert("Patientez quelques instants après l'envoi des données svp!")
+}</script>
+ </body>
+</html>
